@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.group.to_doornotto_do.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_insertFragment"
+            app:destination="@id/insertFragment" />
+        <argument
+            android:name="word_to_insert"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/insertFragment"
+        android:name="com.group.to_doornotto_do.InsertFragment"
+        android:label="fragment_insert"
+        tools:layout="@layout/fragment_insert" >
+        <action
+            android:id="@+id/action_insertFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+</navigation>
