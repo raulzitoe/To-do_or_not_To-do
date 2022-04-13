@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">To-do or not To-do</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_new_list">Create new List</string>
 </resources>

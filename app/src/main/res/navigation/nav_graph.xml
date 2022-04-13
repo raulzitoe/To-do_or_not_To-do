@@ -7,23 +7,23 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.group.to_doornotto_do.MainFragment"
+        android:name="com.group.to_doornotto_do.home.HomeFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_mainFragment_to_insertFragment"
-            app:destination="@id/insertFragment" />
-        <argument
-            android:name="word_to_insert"
-            app:argType="string" />
+            android:id="@+id/action_mainFragment_to_listFragment"
+            app:destination="@id/listFragment" />
     </fragment>
     <fragment
-        android:id="@+id/insertFragment"
-        android:name="com.group.to_doornotto_do.InsertFragment"
-        android:label="fragment_insert"
-        tools:layout="@layout/fragment_insert" >
+        android:id="@+id/listFragment"
+        android:name="com.group.to_doornotto_do.list.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list">
         <action
-            android:id="@+id/action_insertFragment_to_mainFragment"
+            android:id="@+id/action_listFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <argument
+            android:name="list_id"
+            app:argType="integer" />
     </fragment>
 </navigation>

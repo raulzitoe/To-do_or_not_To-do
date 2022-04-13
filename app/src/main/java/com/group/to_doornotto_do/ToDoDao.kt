@@ -19,4 +19,10 @@ interface ToDoDao {
     @Delete
     fun deleteUser(listName: ToDoModel)
 
+    @Query("DELETE from to_do_notes")
+    fun deleteAll()
+
+    @Query("SELECT * from to_do_notes WHERE id LIKE :id")
+    fun getIndividualListData(id: Int): LiveData<ToDoModel>
+
 }

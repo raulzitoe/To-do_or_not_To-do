@@ -14,4 +14,12 @@ class ToDoRepository(context: Context) {
         return database.gelAllLists()
     }
 
+    fun deleteAll() {
+        database.deleteAll()
+    }
+
+    fun getIndividualListData(id: Int): LiveData<ToDoModel> {
+        return database.getIndividualListData(id)
+    }
+
 }
