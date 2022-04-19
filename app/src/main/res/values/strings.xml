@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">To-do or not To-do</string>
     <string name="create_new_list">Create new List</string>
+    <string name="create_new_item">Create New Item</string>
+    <string name="this_list_has_x_items">This list has %d items</string>
+    <string name="delete">Delete</string>
 </resources>

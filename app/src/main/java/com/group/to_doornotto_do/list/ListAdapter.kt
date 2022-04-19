@@ -1,24 +1,53 @@
 package com.group.to_doornotto_do.list
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.checkbox.MaterialCheckBox
+import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.ToDoItemListModel
 import com.group.to_doornotto_do.databinding.ItemIndividualListBinding
 
-class ListAdapter (var itemsList: MutableList<ToDoItemListModel> = mutableListOf()): RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
-    private lateinit var binding: ItemIndividualListBinding
+class ListAdapter(
+    var itemsList: MutableList<ToDoItemListModel> = mutableListOf(),
+    val listener: ListAdapterListener
+) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+    var deleteState: Boolean = false
 
-    inner class ListViewHolder :RecyclerView.ViewHolder(binding.root) {
+    inner class ListViewHolder (private val binding: ItemIndividualListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            binding.itemCheckbox.text = itemsList[position].itemName
-            binding.itemCheckbox.isChecked = itemsList[position].isChecked
+            val checkBox = binding.itemCheckbox
+
+            binding.btnItemDelete.isVisible = deleteState
+            binding.btnItemDelete.setOnClickListener(null)
+            if(deleteState) {
+                binding.btnItemDelete.setOnClickListener {
+                    listener.deleteItem(itemsList[position])
+                }
+            }
+
+            with(checkBox) {
+                this.setOnCheckedChangeListener(null)
+                this.text = itemsList[position].itemName
+                this.isChecked = itemsList[position].isChecked
+                this.setOnCheckedChangeListener { _, isChecked ->
+                    itemsList[position].isChecked = isChecked
+                    listener.itemChecked(itemsList)
+                    strikeThroughText(checkBox)
+                }
+            }
+            strikeThroughText(checkBox)
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        binding = ItemIndividualListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ListViewHolder()
+        val binding =
+            ItemIndividualListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
@@ -29,5 +58,17 @@ class ListAdapter (var itemsList: MutableList<ToDoItemListModel> = mutableListOf
         return itemsList.size
     }
 
+    interface ListAdapterListener {
+        fun itemChecked(itemsList: List<ToDoItemListModel>)
+        fun deleteItem(item: ToDoItemListModel)
+    }
+
+    private fun strikeThroughText(item: MaterialCheckBox) {
+        if (item.isChecked) {
+            item.paintFlags = item.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        } else {
+            item.paintFlags = item.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        }
+    }
 
 }

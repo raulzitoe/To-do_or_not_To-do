@@ -14,10 +14,10 @@ interface ToDoDao {
     fun gelAllLists(): LiveData<List<ToDoModel>>
 
     @Update
-    fun updateUser(listName: ToDoModel)
+    fun updateList(listName: ToDoModel)
 
     @Delete
-    fun deleteUser(listName: ToDoModel)
+    fun deleteList(list: ToDoModel)
 
     @Query("DELETE from to_do_notes")
     fun deleteAll()
