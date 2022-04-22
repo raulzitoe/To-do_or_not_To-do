@@ -4,4 +4,5 @@
     <string name="create_new_item">Create New Item</string>
     <string name="this_list_has_x_items">This list has %d items</string>
     <string name="delete">Delete</string>
+    <string name="create_new_list_button">Create New List Button</string>
 </resources>

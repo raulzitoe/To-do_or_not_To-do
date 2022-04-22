@@ -1,8 +1,9 @@
-package com.group.to_doornotto_do
+package com.group.to_doornotto_do.repository
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.group.to_doornotto_do.repository.ToDoItemListModel
 
 class Converters {
 

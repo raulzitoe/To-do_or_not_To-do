@@ -15,7 +15,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.group.to_doornotto_do.R
-import com.group.to_doornotto_do.ToDoItemListModel
+import com.group.to_doornotto_do.repository.ToDoItemListModel
 import com.group.to_doornotto_do.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -87,6 +87,7 @@ class ListFragment : Fragment() {
 
         binding.editTextNewItem.setOnEditorActionListener { _, actionId, _ ->
             val itemName = binding.editTextNewItem.text
+
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 binding.editTextNewItem.setText("")
                 viewModel.insertItem(itemName.toString())
@@ -105,6 +106,7 @@ class ListFragment : Fragment() {
             binding.createNewItemLayout.isVisible = !binding.createNewItemLayout.isVisible
             binding.fab.isActivated = !binding.fab.isActivated
             val imm = binding.editTextNewItem.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
             if(binding.fab.isActivated) {
                 binding.editTextNewItem.requestFocus()
                 imm.showSoftInput(binding.editTextNewItem, 0)
@@ -122,6 +124,5 @@ class ListFragment : Fragment() {
                 binding.fab.startAnimation(rotateView)
             }
         }
-
     }
 }

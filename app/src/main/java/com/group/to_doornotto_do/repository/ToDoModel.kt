@@ -1,4 +1,4 @@
-package com.group.to_doornotto_do
+package com.group.to_doornotto_do.repository
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

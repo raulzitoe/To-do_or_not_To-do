@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.group.to_doornotto_do.ToDoItemListModel
-import com.group.to_doornotto_do.ToDoModel
-import com.group.to_doornotto_do.ToDoRepository
+import com.group.to_doornotto_do.repository.ToDoItemListModel
+import com.group.to_doornotto_do.repository.ToDoModel
+import com.group.to_doornotto_do.repository.ToDoRepository
 
 class ListFragmentViewModel(context: Context, id: Int) : ViewModel() {
     private val repository = ToDoRepository(context)
@@ -18,16 +18,18 @@ class ListFragmentViewModel(context: Context, id: Int) : ViewModel() {
     }
 
     fun updateList(itemsList: List<ToDoItemListModel>) {
-        individualList.value?.let {
-            it.itemsList = itemsList
-            repository.updateList(it) }
+        individualList.value?.let { it ->
+            it.itemsList = itemsList.sortedBy { it.isChecked }
+            repository.updateList(it)
+        }
     }
 
     fun insertItem(itemName: String) {
-        individualList.value?.let {
-            val aux = it.itemsList + ToDoItemListModel(itemName, false)
-            it.itemsList = aux
-            repository.updateList(it)
+        individualList.value?.let { item ->
+            var aux = item.itemsList + ToDoItemListModel(itemName, false)
+            aux = aux.sortedBy { it.isChecked }
+            item.itemsList = aux
+            repository.updateList(item)
         }
     }
 

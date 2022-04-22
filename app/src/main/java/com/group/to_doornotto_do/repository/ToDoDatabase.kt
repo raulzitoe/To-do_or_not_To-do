@@ -1,4 +1,4 @@
-package com.group.to_doornotto_do
+package com.group.to_doornotto_do.repository
 
 import android.content.Context
 import androidx.room.*
@@ -7,18 +7,18 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(entities = [ToDoModel::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class ToDoListDatabase : RoomDatabase() {
+abstract class ToDoDatabase : RoomDatabase() {
 
     abstract fun toDoDao(): ToDoDao
 
     companion object {
-        private var instance: ToDoListDatabase? = null
+        private var instance: ToDoDatabase? = null
 
         @Synchronized
-        fun getInstance(context: Context): ToDoListDatabase {
+        fun getInstance(context: Context): ToDoDatabase {
             if (instance == null)
                 instance = Room.databaseBuilder(
-                    context.applicationContext, ToDoListDatabase::class.java,
+                    context.applicationContext, ToDoDatabase::class.java,
                     "note_database"
                 ).allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
@@ -30,18 +30,7 @@ abstract class ToDoListDatabase : RoomDatabase() {
         private val roomCallback = object : Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-//                populateDatabase(instance!!)
             }
         }
-
-        private fun populateDatabase(db: ToDoListDatabase) {
-            val toDoDao = db.toDoDao()
-//            toDoDao.insert(ToDoModel("list 1", listOf()))
-//            toDoDao.insert(ToDoModel("list 2", listOf()))
-//            toDoDao.insert(ToDoModel("list 3", listOf()))
-
-        }
     }
-
-
 }

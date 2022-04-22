@@ -1,5 +1,6 @@
 package com.group.to_doornotto_do.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
@@ -14,10 +15,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.group.to_doornotto_do.R
-import com.group.to_doornotto_do.ToDoAdapter
-import com.group.to_doornotto_do.ToDoModel
+import com.group.to_doornotto_do.repository.ToDoModel
 import com.group.to_doornotto_do.databinding.FragmentHomeBinding
-import com.group.to_doornotto_do.list.ListAdapter
+
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
         return true
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = binding.recyclerviewLists
@@ -53,7 +54,7 @@ class HomeFragment : Fragment() {
         myActivity.setSupportActionBar(binding.homeTopAppBar)
 
         with(recyclerView) {
-            adapter = ToDoAdapter(listener = object : ToDoAdapter.ToDoItemListener {
+            adapter = HomeAdapter(listener = object : HomeAdapter.ToDoItemListener {
                 override fun itemClick(id: Int) {
                     val action = HomeFragmentDirections.actionMainFragmentToListFragment(id)
                     Navigation.findNavController(view).navigate(action)
@@ -66,13 +67,13 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.getListData().observe(viewLifecycleOwner) {
-            (recyclerView.adapter as ToDoAdapter).toDoList = it
-            (recyclerView.adapter as ToDoAdapter).notifyDataSetChanged()
+            (recyclerView.adapter as HomeAdapter).toDoList = it
+            (recyclerView.adapter as HomeAdapter).notifyDataSetChanged()
         }
 
         viewModel.deleteState.observe(viewLifecycleOwner) {
-            (recyclerView.adapter as ToDoAdapter).deleteState = it
-            (recyclerView.adapter as ToDoAdapter).notifyDataSetChanged()
+            (recyclerView.adapter as HomeAdapter).deleteState = it
+            (recyclerView.adapter as HomeAdapter).notifyDataSetChanged()
         }
 
         binding.editTextNewList.setOnEditorActionListener { _, actionId, _ ->
@@ -94,8 +95,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.fab.setOnClickListener {
-            binding.createNewListLayout.isVisible = !binding.createNewListLayout.isVisible
-            binding.fab.isActivated = !binding.fab.isActivated
+            binding.createNewListLayout.apply { isVisible = !isVisible }
+            binding.fab.apply { isActivated = !isActivated }
             val imm =
                 binding.editTextNewList.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             if (binding.fab.isActivated) {

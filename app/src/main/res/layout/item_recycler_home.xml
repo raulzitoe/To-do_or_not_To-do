@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="15dp">
+        android:paddingBottom="6dp">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_list_delete"
@@ -31,12 +31,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginBottom="6dp"
         app:cardElevation="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_list_delete"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="?attr/materialCardViewElevatedStyle">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,8 +51,8 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="Groceries"
                 android:layout_marginVertical="5dp"
-                android:textColor="@color/black"
                 android:textSize="24sp"
+                style="@style/Theme.TodoOrNotTodo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/divider"/>
 
@@ -59,7 +60,7 @@
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/light_gray"
+                android:background="?colorOnPrimary"
                 app:layout_constraintTop_toBottomOf="@id/list_name"
                 app:layout_constraintBottom_toTopOf="@id/list_item_quantity"/>
 
@@ -82,8 +83,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="5dp"
                 app:layout_constraintTop_toTopOf="@id/list_name"
-                app:tint="@color/black"
-                />
+                app:tint="?android:textColorPrimary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

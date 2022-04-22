@@ -1,10 +1,10 @@
-package com.group.to_doornotto_do
+package com.group.to_doornotto_do.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 
 class ToDoRepository(context: Context) {
-    private var database: ToDoDao = ToDoListDatabase.getInstance(context).toDoDao()
+    private var database: ToDoDao = ToDoDatabase.getInstance(context).toDoDao()
 
     fun insert(listName: ToDoModel) {
         database.insert(listName)
@@ -29,5 +29,4 @@ class ToDoRepository(context: Context) {
     fun updateList(listModel: ToDoModel) {
         database.updateList(listModel)
     }
-
 }

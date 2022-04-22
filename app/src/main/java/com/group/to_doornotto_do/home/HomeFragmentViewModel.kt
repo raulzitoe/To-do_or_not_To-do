@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.group.to_doornotto_do.ToDoModel
-import com.group.to_doornotto_do.ToDoRepository
+import com.group.to_doornotto_do.repository.ToDoModel
+import com.group.to_doornotto_do.repository.ToDoRepository
 
 class HomeFragmentViewModel(app: Application) : AndroidViewModel(app) {
     private val repository = ToDoRepository(app)

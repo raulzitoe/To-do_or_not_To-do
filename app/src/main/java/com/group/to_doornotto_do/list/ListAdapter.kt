@@ -3,13 +3,12 @@ package com.group.to_doornotto_do.list
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.compose.ui.graphics.Color
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
-import com.group.to_doornotto_do.R
-import com.group.to_doornotto_do.ToDoItemListModel
-import com.group.to_doornotto_do.databinding.ItemIndividualListBinding
+import com.group.to_doornotto_do.repository.ToDoItemListModel
+import com.group.to_doornotto_do.databinding.ItemRecyclerListBinding
+
 
 class ListAdapter(
     var itemsList: MutableList<ToDoItemListModel> = mutableListOf(),
@@ -17,13 +16,14 @@ class ListAdapter(
 ) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
     var deleteState: Boolean = false
 
-    inner class ListViewHolder (private val binding: ItemIndividualListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ListViewHolder(private val binding: ItemRecyclerListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             val checkBox = binding.itemCheckbox
 
             binding.btnItemDelete.isVisible = deleteState
             binding.btnItemDelete.setOnClickListener(null)
-            if(deleteState) {
+            if (deleteState) {
                 binding.btnItemDelete.setOnClickListener {
                     listener.deleteItem(itemsList[position])
                 }
@@ -46,7 +46,7 @@ class ListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
-            ItemIndividualListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRecyclerListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
     }
 
@@ -70,5 +70,4 @@ class ListAdapter(
             item.paintFlags = item.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         }
     }
-
 }
