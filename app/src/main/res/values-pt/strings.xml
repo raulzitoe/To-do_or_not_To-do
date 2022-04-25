@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_new_list">Criar Nova Lista</string>
+    <string name="create_new_item">Criar Novo Item</string>
+    <string name="this_list_has_x_items">Esta lista tem %d items</string>
+    <string name="delete">Excluir</string>
+    <string name="create_new_list_button">Botão criar nova lista</string>
+</resources>
