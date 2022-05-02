@@ -20,7 +20,7 @@ abstract class ToDoDatabase : RoomDatabase() {
                 instance = Room.databaseBuilder(
                     context.applicationContext, ToDoDatabase::class.java,
                     "note_database"
-                ).allowMainThreadQueries()
+                )
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build()

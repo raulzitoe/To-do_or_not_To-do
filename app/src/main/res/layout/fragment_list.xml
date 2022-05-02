@@ -33,6 +33,7 @@
             android:id="@+id/create_new_item_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginHorizontal="15dp"
             android:hint="@string/create_new_item"
             android:visibility="gone"

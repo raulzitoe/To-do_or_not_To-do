@@ -5,4 +5,8 @@
     <string name="this_list_has_x_items">Cette liste comporte %d éléments</string>
     <string name="delete">Supprimer</string>
     <string name="create_new_list_button">Bouton créer une nouvelle liste</string>
+    <string name="confirm">Confirmer</string>
+    <string name="confirm_delete_phrase">Etes-vous sûr que vous voulez supprimer?</string>
+    <string name="ok_">D\'accord</string>
+    <string name="cancel">Annuler</string>
 </resources>

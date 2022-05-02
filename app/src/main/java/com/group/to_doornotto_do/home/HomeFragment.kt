@@ -2,6 +2,7 @@ package com.group.to_doornotto_do.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -9,11 +10,13 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.repository.ToDoModel
 import com.group.to_doornotto_do.databinding.FragmentHomeBinding
@@ -61,7 +64,18 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun deleteList(list: ToDoModel) {
-                    viewModel.deleteList(list)
+                    val alertDialog: AlertDialog? = activity?.let {
+                        val builder = MaterialAlertDialogBuilder(it).apply {
+                            setTitle(R.string.confirm)
+                            setMessage(R.string.confirm_delete_phrase)
+                            setPositiveButton(R.string.ok_) { _, _ ->
+                                viewModel.deleteList(list)
+                            }
+                            setNegativeButton(R.string.cancel) { _, _ -> }
+                        }
+                        builder.create()
+                    }
+                    alertDialog?.show()
                 }
             })
         }

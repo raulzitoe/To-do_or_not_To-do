@@ -8,19 +8,19 @@ import androidx.room.*
 interface ToDoDao {
 
     @Insert
-    fun insert(listName: ToDoModel)
+    suspend fun insert(listName: ToDoModel)
 
     @Query("Select * from to_do_notes")
     fun gelAllLists(): LiveData<List<ToDoModel>>
 
     @Update
-    fun updateList(listName: ToDoModel)
+    suspend fun updateList(listName: ToDoModel)
 
     @Delete
-    fun deleteList(list: ToDoModel)
+    suspend fun deleteList(list: ToDoModel)
 
     @Query("DELETE from to_do_notes")
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Query("SELECT * from to_do_notes WHERE id LIKE :id")
     fun getIndividualListData(id: Int): LiveData<ToDoModel>
