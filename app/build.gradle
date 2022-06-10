@@ -37,6 +37,7 @@ android {
         viewBinding true
         dataBinding true
     }
+    namespace 'com.group.to_doornotto_do'
 }
 
 dependencies {

@@ -1,7 +1,10 @@
 package com.group.to_doornotto_do.repository
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 
@@ -15,10 +18,10 @@ abstract class ToDoDatabase : RoomDatabase() {
         private var instance: ToDoDatabase? = null
 
         @Synchronized
-        fun getInstance(context: Context): ToDoDatabase {
+        fun getInstance(appContext: Context): ToDoDatabase {
             if (instance == null)
                 instance = Room.databaseBuilder(
-                    context.applicationContext, ToDoDatabase::class.java,
+                    appContext.applicationContext, ToDoDatabase::class.java,
                     "note_database"
                 )
                     .fallbackToDestructiveMigration()

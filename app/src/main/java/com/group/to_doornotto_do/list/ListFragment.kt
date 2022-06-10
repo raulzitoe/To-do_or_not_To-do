@@ -5,24 +5,24 @@ import android.os.Bundle
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.fragment.app.Fragment
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.group.to_doornotto_do.R
-import com.group.to_doornotto_do.repository.ToDoItemListModel
 import com.group.to_doornotto_do.databinding.FragmentListBinding
+import com.group.to_doornotto_do.repository.ToDoItemListModel
 
 class ListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
     private val args: ListFragmentArgs by navArgs()
     private val viewModel: ListFragmentViewModel by viewModels() {
-        ListFragmentViewModelFactory(requireContext(), id = args.listId)
+        ListFragmentViewModelFactory(requireActivity().application, id = args.listId)
     }
 
     override fun onCreateView(

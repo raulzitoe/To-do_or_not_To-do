@@ -1,17 +1,17 @@
 package com.group.to_doornotto_do.list
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.group.to_doornotto_do.repository.ToDoItemListModel
 import com.group.to_doornotto_do.repository.ToDoModel
 import com.group.to_doornotto_do.repository.ToDoRepository
 import kotlinx.coroutines.launch
 
-class ListFragmentViewModel(context: Context, id: Int) : ViewModel() {
-    private val repository = ToDoRepository(context)
+class ListFragmentViewModel(appContext: Application, id: Int) : AndroidViewModel(appContext) {
+    private val repository = ToDoRepository(appContext)
     var individualList: LiveData<ToDoModel> = repository.getIndividualListData(id)
     var deleteState: MutableLiveData<Boolean> = MutableLiveData()
 

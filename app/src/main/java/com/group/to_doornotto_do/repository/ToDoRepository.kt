@@ -1,11 +1,11 @@
 package com.group.to_doornotto_do.repository
 
-import android.content.Context
+import android.app.Application
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 
-class ToDoRepository(context: Context) {
-    private var database: ToDoDao = ToDoDatabase.getInstance(context).toDoDao()
+class ToDoRepository(appContext: Application) {
+    private var database: ToDoDao = ToDoDatabase.getInstance(appContext).toDoDao()
 
     @WorkerThread
     suspend fun insert(listName: ToDoModel) {

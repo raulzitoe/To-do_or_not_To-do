@@ -9,8 +9,8 @@ import com.group.to_doornotto_do.repository.ToDoModel
 import com.group.to_doornotto_do.repository.ToDoRepository
 import kotlinx.coroutines.launch
 
-class HomeFragmentViewModel(app: Application) : AndroidViewModel(app) {
-    private val repository = ToDoRepository(app)
+class HomeFragmentViewModel(appContext: Application) : AndroidViewModel(appContext) {
+    private val repository = ToDoRepository(appContext)
     private val toDoList =  repository.getListData()
     var deleteState: MutableLiveData<Boolean> = MutableLiveData()
 

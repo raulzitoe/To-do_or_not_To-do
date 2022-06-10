@@ -2,10 +2,8 @@ package com.group.to_doornotto_do.home
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
@@ -13,13 +11,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.group.to_doornotto_do.R
-import com.group.to_doornotto_do.repository.ToDoModel
 import com.group.to_doornotto_do.databinding.FragmentHomeBinding
+import com.group.to_doornotto_do.repository.ToDoModel
 
 
 class HomeFragment : Fragment() {
