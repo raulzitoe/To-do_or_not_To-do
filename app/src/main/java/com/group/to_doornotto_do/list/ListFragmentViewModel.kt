@@ -2,55 +2,62 @@ package com.group.to_doornotto_do.list
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.group.to_doornotto_do.repository.ToDoItemListModel
 import com.group.to_doornotto_do.repository.ToDoModel
 import com.group.to_doornotto_do.repository.ToDoRepository
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class ListFragmentViewModel(appContext: Application, id: Int) : AndroidViewModel(appContext) {
-    private val repository = ToDoRepository(appContext)
-    var individualList: LiveData<ToDoModel> = repository.getIndividualListData(id)
-    var deleteState: MutableLiveData<Boolean> = MutableLiveData()
+class ListFragmentViewModel(application: Application, id: Int) : AndroidViewModel(application) {
+    private val repository = ToDoRepository(application)
+
+    private val _individualList: MutableStateFlow<ToDoModel> = MutableStateFlow(ToDoModel(itemsList = listOf()))
+    val individualList = _individualList.asStateFlow()
+
+    private val _deleteState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val deleteState = _deleteState.asStateFlow()
 
     init {
-        deleteState.value = false
+        viewModelScope.launch {
+            _individualList.value = repository.getIndividualListData(id)
+        }
     }
 
     fun updateList(itemsList: List<ToDoItemListModel>) {
-        individualList.value?.let { it ->
-            it.itemsList = itemsList.sortedBy { it.isChecked }
-            viewModelScope.launch {
-                repository.updateList(it)
-            }
+        val auxModel = _individualList.value.copy()
+        var auxList = itemsList
+        auxList = auxList.sortedBy { it.isChecked }
+        auxModel.itemsList = auxList
+        _individualList.value = auxModel
+        viewModelScope.launch {
+            repository.updateList(auxModel)
         }
     }
 
     fun insertItem(itemName: String) {
-        individualList.value?.let { item ->
-            var aux = item.itemsList + ToDoItemListModel(itemName, false)
-            aux = aux.sortedBy { it.isChecked }
-            item.itemsList = aux
-            viewModelScope.launch {
-                repository.updateList(item)
-            }
+        val auxModel = _individualList.value.copy()
+        val auxList = auxModel.itemsList.toMutableList()
+        auxList.add(ToDoItemListModel(itemName, isChecked = false))
+        auxModel.itemsList = auxList
+        _individualList.value = auxModel
+        viewModelScope.launch {
+            repository.updateList(auxModel)
         }
     }
 
     fun deleteItem(item: ToDoItemListModel) {
-        individualList.value?.let {
-            val aux = it.itemsList.toMutableList()
-            aux.remove(item)
-            it.itemsList = aux
-            viewModelScope.launch {
-                repository.updateList(it)
-            }
+        val auxModel = _individualList.value.copy()
+        val auxList = auxModel.itemsList.toMutableList()
+        auxList.remove(item)
+        auxModel.itemsList = auxList
+        _individualList.value = auxModel
+        viewModelScope.launch {
+            repository.updateList(auxModel)
         }
     }
 
     fun toggleDelete() {
-        deleteState.value = !(deleteState.value ?: false)
+        _deleteState.value = !_deleteState.value
     }
 }

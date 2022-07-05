@@ -11,12 +11,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.databinding.FragmentListBinding
 import com.group.to_doornotto_do.repository.ToDoItemListModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
@@ -74,15 +80,22 @@ class ListFragment : Fragment() {
 
         binding.listTopAppBar.title = args.listId.toString()
 
-        viewModel.individualList.observe(viewLifecycleOwner) {
-            (recyclerView.adapter as ListAdapter).itemsList = it.itemsList.toMutableList()
-            (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
-            binding.listTopAppBar.title = it.listName
-        }
-
-        viewModel.deleteState.observe(viewLifecycleOwner) {
-            (recyclerView.adapter as ListAdapter).deleteState = it
-            (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.individualList.collect {
+                        (recyclerView.adapter as ListAdapter).itemsList = it.itemsList.toMutableList()
+                        (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
+                        binding.listTopAppBar.title = it.listName
+                    }
+                }
+                launch {
+                    viewModel.deleteState.collect {
+                        (recyclerView.adapter as ListAdapter).deleteState = it
+                        (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
+                    }
+                }
+            }
         }
 
         binding.editTextNewItem.setOnEditorActionListener { _, actionId, _ ->

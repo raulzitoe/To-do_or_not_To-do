@@ -2,17 +2,21 @@ package com.group.to_doornotto_do.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.group.to_doornotto_do.repository.ToDoModel
 import com.group.to_doornotto_do.repository.ToDoRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HomeFragmentViewModel(appContext: Application) : AndroidViewModel(appContext) {
-    private val repository = ToDoRepository(appContext)
+class HomeFragmentViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = ToDoRepository(application)
     private val toDoList =  repository.getListData()
-    var deleteState: MutableLiveData<Boolean> = MutableLiveData()
+
+    private val _deleteState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val deleteState = _deleteState.asStateFlow()
 
     fun insert(listName: ToDoModel) {
         viewModelScope.launch {
@@ -20,7 +24,7 @@ class HomeFragmentViewModel(appContext: Application) : AndroidViewModel(appConte
         }
     }
 
-    fun getListData(): LiveData<List<ToDoModel>> {
+    fun getListData(): Flow<List<ToDoModel>> {
         return toDoList
     }
 
@@ -37,6 +41,6 @@ class HomeFragmentViewModel(appContext: Application) : AndroidViewModel(appConte
     }
 
     fun toggleDelete() {
-        deleteState.value = !(deleteState.value ?: false)
+        _deleteState.value = !_deleteState.value
     }
 }

@@ -1,8 +1,9 @@
 package com.group.to_doornotto_do.repository
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface ToDoDao {
@@ -11,7 +12,7 @@ interface ToDoDao {
     suspend fun insert(listName: ToDoModel)
 
     @Query("Select * from to_do_notes")
-    fun gelAllLists(): LiveData<List<ToDoModel>>
+    fun gelAllLists(): Flow<List<ToDoModel>>
 
     @Update
     suspend fun updateList(listName: ToDoModel)
@@ -23,6 +24,6 @@ interface ToDoDao {
     suspend fun deleteAll()
 
     @Query("SELECT * from to_do_notes WHERE id LIKE :id")
-    fun getIndividualListData(id: Int): LiveData<ToDoModel>
+    suspend fun getIndividualListData(id: Int): ToDoModel
 
 }

@@ -13,12 +13,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.databinding.FragmentHomeBinding
 import com.group.to_doornotto_do.repository.ToDoModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -79,14 +84,21 @@ class HomeFragment : Fragment() {
             })
         }
 
-        viewModel.getListData().observe(viewLifecycleOwner) {
-            (recyclerView.adapter as HomeAdapter).toDoList = it
-            (recyclerView.adapter as HomeAdapter).notifyDataSetChanged()
-        }
-
-        viewModel.deleteState.observe(viewLifecycleOwner) {
-            (recyclerView.adapter as HomeAdapter).deleteState = it
-            (recyclerView.adapter as HomeAdapter).notifyDataSetChanged()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.getListData().collectLatest {
+                        (recyclerView.adapter as HomeAdapter).toDoList = it
+                        (recyclerView.adapter as HomeAdapter).notifyDataSetChanged()
+                    }
+                }
+                launch {
+                    viewModel.deleteState.collectLatest {
+                        (recyclerView.adapter as HomeAdapter).deleteState = it
+                        (recyclerView.adapter as HomeAdapter).notifyDataSetChanged()
+                    }
+                }
+            }
         }
 
         binding.editTextNewList.setOnEditorActionListener { _, actionId, _ ->
