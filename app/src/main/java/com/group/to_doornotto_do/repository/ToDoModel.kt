@@ -8,6 +8,7 @@ data class ToDoModel (@PrimaryKey(autoGenerate = true) val id: Int=0, val listNa
 
 
 data class ToDoItemListModel (
+    var itemID: Int,
     var itemName: String,
     var isChecked: Boolean
         )

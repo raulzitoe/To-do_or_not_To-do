@@ -88,8 +88,7 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.getListData().collectLatest {
-                        (recyclerView.adapter as HomeAdapter).toDoList = it
-                        (recyclerView.adapter as HomeAdapter).notifyDataSetChanged()
+                        (recyclerView.adapter as HomeAdapter).submitList(it)
                     }
                 }
                 launch {

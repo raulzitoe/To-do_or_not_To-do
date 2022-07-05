@@ -24,11 +24,10 @@ class ListFragmentViewModel(application: Application, id: Int) : AndroidViewMode
         }
     }
 
-    fun updateList(itemsList: List<ToDoItemListModel>) {
+    fun updateList() {
         val auxModel = _individualList.value.copy()
-        var auxList = itemsList
-        auxList = auxList.sortedBy { it.isChecked }
-        auxModel.itemsList = auxList
+        val auxList = auxModel.itemsList.toMutableList()
+        auxModel.itemsList = auxList.sortedBy { it.isChecked }
         _individualList.value = auxModel
         viewModelScope.launch {
             repository.updateList(auxModel)
@@ -38,7 +37,8 @@ class ListFragmentViewModel(application: Application, id: Int) : AndroidViewMode
     fun insertItem(itemName: String) {
         val auxModel = _individualList.value.copy()
         val auxList = auxModel.itemsList.toMutableList()
-        auxList.add(ToDoItemListModel(itemName, isChecked = false))
+        val id = auxList.size + 1
+        auxList.add(ToDoItemListModel(itemID = id, itemName = itemName, isChecked = false))
         auxModel.itemsList = auxList
         _individualList.value = auxModel
         viewModelScope.launch {

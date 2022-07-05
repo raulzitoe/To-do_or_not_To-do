@@ -4,36 +4,38 @@ package com.group.to_doornotto_do.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.databinding.ItemRecyclerHomeBinding
 import com.group.to_doornotto_do.repository.ToDoModel
 
 
-class HomeAdapter(var toDoList: List<ToDoModel> = listOf(), val listener: ToDoItemListener) :
-    RecyclerView.Adapter<HomeAdapter.ToDoViewHolder>() {
+class HomeAdapter(val listener: ToDoItemListener) :
+    ListAdapter<ToDoModel, HomeAdapter.ToDoViewHolder>(ToDoDiffCallback()) {
     var deleteState: Boolean = false
 
     inner class ToDoViewHolder(private val binding: ItemRecyclerHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(position: Int) {
+        fun bind(item: ToDoModel) {
             binding.btnListDelete.isVisible = deleteState
             binding.btnListDelete.setOnClickListener(null)
             if (deleteState) {
                 binding.btnListDelete.setOnClickListener {
-                    listener.deleteList(toDoList[position])
+                    listener.deleteList(item)
                 }
             }
 
-            binding.listName.text = toDoList[position].listName
+            binding.listName.text = item.listName
             binding.root.setOnClickListener {
-                listener.itemClick(toDoList[position].id)
+                listener.itemClick(item.id)
             }
             with(binding.listItemQuantity) {
                 val quantityText = this.context.getString(
                     R.string.this_list_has_x_items,
-                    toDoList[position].itemsList.size
+                    item.itemsList.size
                 )
                 this.text = quantityText
             }
@@ -47,15 +49,23 @@ class HomeAdapter(var toDoList: List<ToDoModel> = listOf(), val listener: ToDoIt
     }
 
     override fun onBindViewHolder(holder: ToDoViewHolder, position: Int) {
-        holder.bind(position)
-    }
-
-    override fun getItemCount(): Int {
-        return toDoList.size
+        val item = getItem(position)
+        holder.bind(item)
     }
 
     interface ToDoItemListener {
         fun itemClick(id: Int)
         fun deleteList(list: ToDoModel)
     }
+}
+
+class ToDoDiffCallback : DiffUtil.ItemCallback<ToDoModel>() {
+    override fun areItemsTheSame(oldItem: ToDoModel, newItem: ToDoModel): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: ToDoModel, newItem: ToDoModel): Boolean {
+        return oldItem == newItem
+    }
+
 }

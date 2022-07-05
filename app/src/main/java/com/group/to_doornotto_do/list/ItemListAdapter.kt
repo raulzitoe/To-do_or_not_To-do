@@ -4,38 +4,39 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.group.to_doornotto_do.databinding.ItemRecyclerListBinding
 import com.group.to_doornotto_do.repository.ToDoItemListModel
 
 
-class ListAdapter(
-    var itemsList: MutableList<ToDoItemListModel> = mutableListOf(),
+class ItemListAdapter(
     val listener: ListAdapterListener
-) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+) : ListAdapter<ToDoItemListModel, ItemListAdapter.ListViewHolder>(ToDoItemDiffCallback()) {
     var deleteState: Boolean = false
 
     inner class ListViewHolder(private val binding: ItemRecyclerListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(position: Int) {
+        fun bind(item: ToDoItemListModel) {
             val checkBox = binding.itemCheckbox
 
             binding.btnItemDelete.isVisible = deleteState
             binding.btnItemDelete.setOnClickListener(null)
             if (deleteState) {
                 binding.btnItemDelete.setOnClickListener {
-                    listener.deleteItem(itemsList[position])
+                    listener.deleteItem(item)
                 }
             }
 
             with(checkBox) {
                 this.setOnCheckedChangeListener(null)
-                this.text = itemsList[position].itemName
-                this.isChecked = itemsList[position].isChecked
+                this.text = item.itemName
+                this.isChecked = item.isChecked
                 this.setOnCheckedChangeListener { _, isChecked ->
-                    itemsList[position].isChecked = isChecked
-                    listener.itemChecked(itemsList)
+                    item.isChecked = isChecked
+                    listener.itemChecked()
                     strikeThroughText(checkBox)
                 }
             }
@@ -51,15 +52,12 @@ class ListAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.bind(position)
-    }
-
-    override fun getItemCount(): Int {
-        return itemsList.size
+        val item = getItem(position)
+        holder.bind(item)
     }
 
     interface ListAdapterListener {
-        fun itemChecked(itemsList: List<ToDoItemListModel>)
+        fun itemChecked()
         fun deleteItem(item: ToDoItemListModel)
     }
 
@@ -69,5 +67,18 @@ class ListAdapter(
         } else {
             item.paintFlags = item.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         }
+    }
+}
+
+class ToDoItemDiffCallback : DiffUtil.ItemCallback<ToDoItemListModel>() {
+    override fun areItemsTheSame(oldItem: ToDoItemListModel, newItem: ToDoItemListModel): Boolean {
+        return oldItem.itemID == newItem.itemID
+    }
+
+    override fun areContentsTheSame(
+        oldItem: ToDoItemListModel,
+        newItem: ToDoItemListModel
+    ): Boolean {
+        return oldItem.itemName == newItem.itemName
     }
 }

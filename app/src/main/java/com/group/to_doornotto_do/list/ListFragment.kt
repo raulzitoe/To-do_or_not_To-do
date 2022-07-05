@@ -21,7 +21,6 @@ import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.databinding.FragmentListBinding
 import com.group.to_doornotto_do.repository.ToDoItemListModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
@@ -68,9 +67,9 @@ class ListFragment : Fragment() {
             Navigation.findNavController(view).navigateUp()
         }
 
-        recyclerView.adapter = ListAdapter(listener = object: ListAdapter.ListAdapterListener{
-            override fun itemChecked(itemsList: List<ToDoItemListModel>) {
-                viewModel.updateList(itemsList)
+        recyclerView.adapter = ItemListAdapter(listener = object: ItemListAdapter.ListAdapterListener{
+            override fun itemChecked() {
+                viewModel.updateList()
             }
 
             override fun deleteItem(item: ToDoItemListModel) {
@@ -84,15 +83,14 @@ class ListFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.individualList.collect {
-                        (recyclerView.adapter as ListAdapter).itemsList = it.itemsList.toMutableList()
-                        (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
+                        (recyclerView.adapter as ItemListAdapter).submitList(it.itemsList)
                         binding.listTopAppBar.title = it.listName
                     }
                 }
                 launch {
                     viewModel.deleteState.collect {
-                        (recyclerView.adapter as ListAdapter).deleteState = it
-                        (recyclerView.adapter as ListAdapter).notifyDataSetChanged()
+                        (recyclerView.adapter as ItemListAdapter).deleteState = it
+                        (recyclerView.adapter as ItemListAdapter).notifyDataSetChanged()
                     }
                 }
             }
