@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.group.to_doornotto_do.databinding.ItemRecyclerListBinding
-import com.group.to_doornotto_do.repository.ToDoItemListModel
+import com.group.to_doornotto_do.model.ToDoItemListModel
 
 
 class ItemListAdapter(

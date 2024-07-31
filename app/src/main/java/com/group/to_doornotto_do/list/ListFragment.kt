@@ -19,8 +19,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.databinding.FragmentListBinding
-import com.group.to_doornotto_do.repository.ToDoItemListModel
-import kotlinx.coroutines.flow.collect
+import com.group.to_doornotto_do.model.ToDoItemListModel
 import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {

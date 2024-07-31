@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.databinding.ItemRecyclerHomeBinding
-import com.group.to_doornotto_do.repository.ToDoModel
+import com.group.to_doornotto_do.model.ToDoModel
 
 
 class HomeAdapter(val listener: ToDoItemListener) :
