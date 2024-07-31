@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.group.to_doornotto_do.R
 import com.group.to_doornotto_do.databinding.FragmentHomeBinding
-import com.group.to_doornotto_do.repository.ToDoModel
+import com.group.to_doornotto_do.model.ToDoModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

@@ -3,8 +3,8 @@ package com.group.to_doornotto_do.list
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.group.to_doornotto_do.repository.ToDoItemListModel
-import com.group.to_doornotto_do.repository.ToDoModel
+import com.group.to_doornotto_do.model.ToDoItemListModel
+import com.group.to_doornotto_do.model.ToDoModel
 import com.group.to_doornotto_do.repository.ToDoRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

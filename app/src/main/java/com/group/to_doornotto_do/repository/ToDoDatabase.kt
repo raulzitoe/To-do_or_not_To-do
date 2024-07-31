@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.group.to_doornotto_do.model.ToDoModel
 
 
 @Database(entities = [ToDoModel::class], version = 1)

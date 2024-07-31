@@ -1,9 +1,8 @@
 package com.group.to_doornotto_do.repository
 
 import androidx.room.*
+import com.group.to_doornotto_do.model.ToDoModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface ToDoDao {

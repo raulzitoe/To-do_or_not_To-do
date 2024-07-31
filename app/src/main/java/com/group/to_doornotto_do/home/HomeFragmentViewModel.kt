@@ -3,7 +3,7 @@ package com.group.to_doornotto_do.home
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.group.to_doornotto_do.repository.ToDoModel
+import com.group.to_doornotto_do.model.ToDoModel
 import com.group.to_doornotto_do.repository.ToDoRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
