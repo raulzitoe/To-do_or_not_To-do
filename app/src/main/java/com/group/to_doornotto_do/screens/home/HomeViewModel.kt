@@ -3,7 +3,7 @@ package com.group.to_doornotto_do.screens.home
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.group.to_doornotto_do.model.ToDoModel
+import com.group.to_doornotto_do.model.ToDoListModel
 import com.group.to_doornotto_do.repository.ToDoRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,7 +36,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun deleteList(list: ToDoModel) {
+    fun deleteList(list: ToDoListModel) {
         viewModelScope.launch {
             repository.deleteList(list)
         }

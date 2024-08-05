@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.group.to_doornotto_do.components.ToDoListCard
-import com.group.to_doornotto_do.model.ToDoModel
+import com.group.to_doornotto_do.model.ToDoListModel
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -81,7 +81,7 @@ private fun HomeScreenUI(
 private fun HomeScreenPreview() {
     HomeScreenUI(
         state = HomeUIState(
-            toDoListsFlow = flowOf(listOf(ToDoModel(1, "Shopping List", listOf())))
+            toDoListsFlow = flowOf(listOf(ToDoListModel(1, "Shopping List", listOf())))
         ),
         onCreateNewList = {},
         onOpenList = {}

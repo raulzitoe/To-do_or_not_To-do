@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.group.to_doornotto_do.model.ToDoModel
+import com.group.to_doornotto_do.model.ToDoListModel
 
 
-@Database(entities = [ToDoModel::class], version = 1)
+@Database(entities = [ToDoListModel::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class ToDoDatabase : RoomDatabase() {
 

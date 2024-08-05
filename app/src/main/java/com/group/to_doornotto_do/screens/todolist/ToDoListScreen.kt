@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.group.to_doornotto_do.components.ToDoItemCard
-import com.group.to_doornotto_do.model.ToDoModel
+import com.group.to_doornotto_do.model.ToDoListModel
 
 @Composable
 fun ToDoListScreen(
@@ -40,8 +40,8 @@ fun ToDoListScreen(
 @Composable
 private fun ToDoListScreenUI(
     state: ToDoListUIState,
-    onAddItem: (toDoList: ToDoModel, value: String) -> Unit,
-    onCheckedChange: (toDoList: ToDoModel, itemId: Int) -> Unit,
+    onAddItem: (toDoList: ToDoListModel, value: String) -> Unit,
+    onCheckedChange: (toDoList: ToDoListModel, itemId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var newItemName by remember { mutableStateOf("") }
