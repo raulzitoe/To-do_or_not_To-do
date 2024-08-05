@@ -23,6 +23,5 @@ interface ToDoDao {
     suspend fun deleteAll()
 
     @Query("SELECT * from to_do_notes WHERE id LIKE :id")
-    suspend fun getIndividualListData(id: Int): ToDoModel
-
+    fun getIndividualListData(id: Int): Flow<ToDoModel>
 }

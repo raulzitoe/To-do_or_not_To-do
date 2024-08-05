@@ -1,14 +1,14 @@
 package com.group.to_doornotto_do.repository
 
-import android.app.Application
+import android.content.Context
 import com.group.to_doornotto_do.model.ToDoModel
 import kotlinx.coroutines.flow.Flow
 
-class ToDoRepository(appContext: Application) {
+class ToDoRepository(appContext: Context) {
     private var database: ToDoDao = ToDoDatabase.getInstance(appContext).toDoDao()
 
-    suspend fun insert(listName: ToDoModel) {
-        database.insert(listName)
+    suspend fun insertNewList(listName: String) {
+        database.insert(ToDoModel(listName = listName, itemsList = listOf()))
     }
 
     fun getListData(): Flow<List<ToDoModel>> {
@@ -23,7 +23,7 @@ class ToDoRepository(appContext: Application) {
         database.deleteAll()
     }
 
-    suspend fun getIndividualListData(id: Int): ToDoModel {
+    fun getIndividualListData(id: Int): Flow<ToDoModel> {
         return database.getIndividualListData(id)
     }
 

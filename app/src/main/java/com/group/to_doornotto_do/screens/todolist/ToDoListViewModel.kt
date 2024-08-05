@@ -1,6 +1,7 @@
-package com.group.to_doornotto_do.list
+package com.group.to_doornotto_do.screens.todolist
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.group.to_doornotto_do.model.ToDoItemListModel
@@ -9,8 +10,8 @@ import com.group.to_doornotto_do.repository.ToDoRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class ListFragmentViewModel(application: Application, id: Int) : AndroidViewModel(application) {
-    private val repository = ToDoRepository(application)
+class ToDoListViewModel(context: Context, id: Int) : AndroidViewModel(context.applicationContext as Application) {
+    private val repository = ToDoRepository(context)
 
     private val _individualList: MutableStateFlow<ToDoModel> = MutableStateFlow(ToDoModel(itemsList = listOf()))
     val individualList = _individualList.asStateFlow()
@@ -18,10 +19,11 @@ class ListFragmentViewModel(application: Application, id: Int) : AndroidViewMode
     private val _deleteState: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val deleteState = _deleteState.asStateFlow()
 
+    private val _state: MutableStateFlow<ToDoListUIState> = MutableStateFlow(ToDoListUIState(toDoItemsFlow = flowOf()))
+    val state = _state.asStateFlow()
+
     init {
-        viewModelScope.launch {
-            _individualList.value = repository.getIndividualListData(id)
-        }
+        _state.update { it.copy(toDoItemsFlow = repository.getIndividualListData(id)) }
     }
 
     fun updateList() {
@@ -59,5 +61,36 @@ class ListFragmentViewModel(application: Application, id: Int) : AndroidViewMode
 
     fun toggleDelete() {
         _deleteState.value = !_deleteState.value
+    }
+
+    fun onAddItem(toDoList: ToDoModel, newItem: String) {
+        viewModelScope.launch {
+            val oldItems = toDoList.itemsList
+            repository.updateList(
+                toDoList.copy(
+                    itemsList = oldItems.plus(
+                        ToDoItemListModel(
+                            itemID = oldItems.size + 1,
+                            itemName = newItem,
+                            isChecked = false
+                        )
+                    )
+                )
+            )
+        }
+    }
+
+    fun onCheckedChange(toDoList: ToDoModel, itemId: Int) {
+        viewModelScope.launch {
+            val newItems = toDoList.itemsList.map {
+                if (it.itemID == itemId) {
+                    it.copy(isChecked = !it.isChecked)
+                } else {
+                    it
+                }
+            }
+
+            repository.updateList(toDoList.copy(itemsList = newItems))
+        }
     }
 }
